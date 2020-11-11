@@ -1,70 +1,282 @@
-# Getting Started with Create React App
+# AutoRouter &#128739;
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Mapping your routes by your routes folder structure
 
-## Available Scripts
+##Don't waste time anymore on creating new routes!
 
-In the project directory, you can run:
+####Without this AutoRouter 
+<i>On a bad day</i>, with the need of creating a new project with routing you have to do following steps :
 
-### `yarn start`
+0. <b>Create your server minimal code.</b>
+1. Create your variable to store the new route.
+1. Import the custom route module.
+1. Edit the server file in the right place to make the new route available.
+1. <b>Create the module Folder and its index.js exporting a router.</b>
+1. <b>Define your route(s) into the new index.js module.</b>
+1. Test if everything is working (you may have made some mistakes in the previous steps - like typos).
+1. Make potential corrections.
+1. Breath.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+####With this AutoRouter
+<i>Still on a bad day, on a rush, tired, or whatever</i> :
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+0. <b>Create your server minimal code.</b>
+1. <b>Create a Folder tree containing a module Folder and its index.js exporting a router for each leaf.</b>
+1. <b>Define your route(s) into the new index.js module files.</b>
+1. Breath.
 
-### `yarn test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Getting started
 
-### `yarn build`
+1. Clone this repository somewhere.
+    ```bash 
+    $ git clone https://github.com/ManuUseGitHub/AutoRouter.git
+    ```
+1. Create the `server.js` file into a backend folder.
+    ```bash
+    #windows & mac
+    $ echo // TODO : code here > backend/server.js
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    #linux
+    $ // TODO : code here > backend/server.js
+    ```
+1. Go into the `/backend` folder and set your node project and its dependencies
+    run
+    ```bash
+    $ npm init
+    $ npm install express
+    ```
+1. Change the `server.js` file to look like this :
+    ```js
+    const express = require('express');
+    const app = express();
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    const autoRouter = require("./AutoRouter");
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    // ROUTES ----------------------------------------------------------
+    const onmatch = ({route,module}) => app.use(route, require(module));
+    autoRouter.getMapping({onmatch});
+    // END ROUTES ------------------------------------------------------
 
-### `yarn eject`
+    // Listening parameters
+    app.listen(4000, () => {
+        console.log("Ready on port: " + 4000);
+    });
+    ```
+1. Copy either the `dist` or the `dev` implementation of AutoRouter into the same level as your server.js
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+    Here are their place
+    - distribution : `dist/AutoRouter.min.js`
+    - development : `dev/AutoRouter.js`
+    
+    <br/>**Note: The autorouter module has to be placed on the same level as the server.js file - in `/backend` - to simplify the path resolving.**
+1. Create the `/backend/controllers/routes` folder structure.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. Go to `/backend` and run the server
+    ```bash
+    $ npm run server
+    ```
+1. Create a router module in `/backend/controllers/routes/Test` and set the following code
+    ```js
+    const express = require("express");
+    const router = express.Router();
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+    router.get('/', async (req, res) => {
+        res.send("Hello world! The auto router works!");
+    })
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+    module.exports = router;
+    ```
 
-## Learn More
+## Customer services demo
+I provide you with a straight forward demo based on a fictive service site. This service would, by design, handle customers no matter its abilities to consume the service...
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+It also gives you a good example of how the AutoRouter can be implemented.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. Clone this repository somewhere.
+    ```bash 
+    $ git clone https://github.com/ManuUseGitHub/AutoRouter.git
+    ```
+1. Go into the `/demo/backend` and run the following commands
+    ```bash
+    $ npm install
+    $ npm run server
+    ```
+1. Create a router module somewhere in `/demo/backend/controllers/routes`. 
+    Let's say the `.../controllers/routes/AutoRouted` module. Create the `index.js` file. This file has to export a router ! Write it like this :
+    ```js
+    const express = require("express");
+    const router = express.Router();
 
-### Code Splitting
+    router.get('/', async (req, res) => {
+        res.send("Hello world! The auto router works!");
+    })
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+    module.exports = router;
+    ```
 
-### Analyzing the Bundle Size
+## Options
+| Option       | default                                           | type            |
+|--------------|---------------------------------------------------|-----------------|
+| onmatch      | `match => {}`                                     | function        |
+| onerr        | `({message}) => { console.log(message) }`         | function        |
+| rootp        | `'controllers/routes/'`                           | string          |
+| subr         | null                                              | misc            |
+| translations | []                                                | array of object |
+| verbose      | true                                              | false           |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+***
+#### `onmatch`
+<small>onmatch : `on match`</small>
+Function to pass to be apply on every route at the final process. That process iterates over simple objects containing the final route string (route) and the path to the module (module) relative to the given base folder path given by the <b>option</b> `rootp`.
+```js
+const onmatch = e => { 
+    
+    // destructured route item
+    const { route, module } = e;
+    
+    express.use(route, require(module));
+};
+```
+Sticking to this sniped is the better practice. Since the AutoRouter is calling `onmatch` anyway.
+***
+#### `onerr`
+<small>onerr : `on error`</small>
+Function to pass to handle exceptions that can very unlikely  happen during the auto routing. 
+You may prefer to stick to the default value:
+```js
+const onerr = ({message}) => { console.log(message) }; // default value
+```
+***
+#### `rootp`
+<small>rootp : `root path`</small>
+Defines the root folder to loop <b>recursively</b> to create the based route tree dynamically.
+```js
+const rootp = 'controllers/routes/'; // default value
+```
+**Note : the path should be relative to the server root level.**
+***
+#### `subr`
+<small>subr : `sub route`</small>
+Tells how to translate a route which is in a folder that points on a folder that is not a "leaf" in the folder tree part of `rootp`. 
 
-### Making a Progressive Web App
+**Note: Providing that special translation may avoid further eventual conflicts. Even routes work in the first place... prevention is the key!**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+The value of subr can be either of these : 
+```js
+[ null | 'b64' | 'cptlz' | { after:'<something>', before:'<something>' } ]
+```
+use like this
+```js
+const subr = null ; // default value
+```
+**null case** : Take this following unchanged mapping. From the demo; `subr` is `null` by default:
+```bash
+AUTOROUTER: routers in 'controllers/routes/'
+↪ [
+  '/',                      #not a leaf !
+  '/api',                   #not a leaf !
+  '/api/customerservices',  #not a leaf !
+  '/api/customerservices/cannotsee', #a leaf !
+  ...,
+  ]
+```
+**cptlz case** <small>`capitalize case`</small> : In this instance, the sub route will be capitalized ! `subr` is `cptlz` 
 
-### Advanced Configuration
+```bash
+AUTOROUTER: routers in 'controllers/routes/'
+↪ [
+  '/', # nothing changed for the root ... (*)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+  '/Api', # /api => /Api
+  '/api/Customerservices', # /api/customServices => /api/CustomServices
+  '/api/customerservices/cannotsee' # a leaf !
+  ...,
+]
+```
+**(*) root : you may not set a router in the root `/` in the first place ! But you may use the [`'translations'`](/#translations) option as a safe walkaround**
 
-### Deployment
+**b64 case** : In this following mapping ; `subr` is `'b64'` :
+```bash
+AUTOROUTER: routers in 'controllers/routes/'
+↪ [
+  ...,
+  '/api/customerservices/cannotsee',
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+  # it's /api/b64('customerservices') !
+  '/api/Y3VzdG9tZXJzZXJ2aWNlcw==', 
+  ...,
+  # it's /b64('/') ! impossible to make a b64 of '' so it is b64('/')
+  '/Lw==', 
+  # it's /b64('api') !
+  '/YXBp'
+]
+```
+**{before:'Hi_',after:'_Bye'}** : In this following mapping ; `subr` is `{before:'Hi_',after:'_Bye'}` :
+```bash
+AUTOROUTER: routers in 'controllers/routes/'
+↪ [
+  ...,
+  '/api/customerservices/cannotsee',# a leaf !
+  '/api/Hi_customerservices_Bye',   # applied to /api/customerservices'
+  '/Hi__Bye',                       # applied to /<empty string>
+  '/Hi_api_Bye'                     # applied to /api
+]
+```
+***
+#### `translations`
+<small>`translations`</small>
+Helps to customize routes in the final mapping. 
+The AutoRouter will iterate over the `translations` to see if a `from` fully matchs a route in the mapping and thus it will replace that matching route by the `to` string.
+**Note : none of the `from` or the `to` should have trailing slashes `'/'`.**
+For this instance, we may want to hide the infirm part of the route because it may hurt some feelings.
+```js
+const translations = [{ 
+        from : 'api/customerservices/special/infirm/deaf', 
 
-### `yarn build` fails to minify
+        // you can issue this route like this : http://localhost:4000/deaf ... that's all !
+        to : 'deaf'
+    },
+    {
+        from : 'api/customerservices/special/infirm/blind',
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+        // the infirm segment has been removed! 
+        // And breaking news, blind has been replaced by 'cannotsee' ! ... because blind people can't see
+        to : 'api/customerservices/cannotsee'
+    },
+    {
+        from : 'api/customerservices/special/infirm/mute',
+
+        // Maybe desabled is more suitable than infirm but we dont want to refactor this little mistake
+        to : 'api/customerservices/desabled/mute'
+    }
+];
+```
+***
+#### `verbose`
+<small>`verbose`</small>
+Tells if you want to see the final resulting route list. It has `true` by default because it provides a direct check on your configurations. Turn this option to `false` if you want a clear integration.
+```js
+const verbose = true; // default value
+```
+
+### Applying all options
+```js
+// in server.js
+
+// CONFIGURE options
+const onerr = ({message}) => { console.log(message) }; // default value
+const onmatch = ({route,module}) => express.use(route, require(module)); // most important
+const rootp = 'controllers/routes/'; // default value
+const subr = 'b64';
+const translations = [{ 
+    from : 'api/customerservices/special/infirm/deaf', to : 'deaf'
+}];
+const verbose = true; // default value
+
+// APPLYING the mapping of routes with all options
+autoRouter.getMapping({onerr,onmatch,rootp,subr,translations,verbose});
+```
+
+#Licence
+[MIT](LICENSE)

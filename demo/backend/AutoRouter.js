@@ -68,9 +68,7 @@ module.exports = (() => {
 
                 // default behaviors
                 onmatch = match => {},
-                onerr = ({
-                    message
-                }) => { console.log(message) },
+                onerr = ({message}) => { console.log(message) },
 
                 // replace specific routes by custom
                 translations = [],

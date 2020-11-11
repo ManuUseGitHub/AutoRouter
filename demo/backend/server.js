@@ -3,17 +3,10 @@ const app = express();
 
 const autoRouter = require("./AutoRouter");
 
-// Routes
-// seek into [path : controllers/routes] and map routes according to the folder tree
-
-const autoRouterOptions = {
-  onmatch : (e) => {
-    app.use(e.route, require(e.module));
-  },
-}
-
-// returns a list of {route,module} and callbacks 'onmatch' option
-autoRouter.getMapping(autoRouterOptions);
+// ROUTES ----------------------------------------------------------
+const onmatch = ({route,module}) => app.use(route, require(module));
+autoRouter.getMapping({onmatch});
+// END ROUTES ------------------------------------------------------
 
 // Listening parameters
 app.listen(4000, () => {
