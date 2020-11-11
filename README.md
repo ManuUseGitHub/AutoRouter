@@ -4,7 +4,7 @@ Mapping your routes by your routes folder structure
 
 ##Don't waste time anymore on creating new routes!
 
-####Without this AutoRouter 
+#### Without this AutoRouter 
 <i>On a bad day</i>, with the need of creating a new project with routing you have to do following steps :
 
 0. <b>Create your server minimal code.</b>
@@ -17,7 +17,7 @@ Mapping your routes by your routes folder structure
 1. Make potential corrections.
 1. Breath.
 
-####With this AutoRouter
+#### With this AutoRouter
 <i>Still on a bad day, on a rush, tired, or whatever</i> :
 
 0. <b>Create your server minimal code.</b>
@@ -278,5 +278,5 @@ const verbose = true; // default value
 autoRouter.getMapping({onerr,onmatch,rootp,subr,translations,verbose});
 ```
 
-#Licence
+# Licence
 [MIT](LICENSE)
