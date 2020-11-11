@@ -286,16 +286,96 @@ pre[data-line] .line-highlight[data-end]:after {
 <ol start="0">
 <li><b>Create your server minimal code.</b></li>
 <li><b>Create a Folder tree containing a module Folder and its index.js exporting a router for each leaf.</b></li>
-<li><b>Define your route(s) into the new index.js module.</b></li>
+<li><b>Define your route(s) into the new index.js module files.</b></li>
 <li>Breath.</li>
 </ol>
 <h2 class="mume-header" id="getting-started">Getting started</h2>
 
-<p><strong>Note: The autorouter module has to be placed on the same level as the server.js file</strong></p>
+<ol>
+<li>
+<p>Clone this repository somewhere.</p>
+<pre data-role="codeBlock" data-info="bash" class="language-bash">$ <span class="token function">git</span> clone https://github.com/ManuUseGitHub/AutoRouter.git
+</pre></li>
+<li>
+<p>Create the <code>server.js</code> file into a backend folder.</p>
+<pre data-role="codeBlock" data-info="bash" class="language-bash"><span class="token comment">#windows &amp; mac</span>
+$ <span class="token keyword">echo</span> // TODO <span class="token keyword">:</span> code here <span class="token operator">&gt;</span> backend/server.js
+
+<span class="token comment">#linux</span>
+$ // TODO <span class="token keyword">:</span> code here <span class="token operator">&gt;</span> backend/server.js
+</pre></li>
+<li>
+<p>Go into the <code>/backend</code> folder and set your node project and its dependencies<br>
+run</p>
+<pre data-role="codeBlock" data-info="bash" class="language-bash">$ <span class="token function">npm</span> init
+$ <span class="token function">npm</span> <span class="token function">install</span> express
+</pre></li>
+<li>
+<p>Change the <code>server.js</code> file to look like this :</p>
+<pre data-role="codeBlock" data-info="js" class="language-javascript"><span class="token keyword">const</span> express <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&apos;express&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token function">express</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> autoRouter <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;./AutoRouter&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// ROUTES ----------------------------------------------------------</span>
+<span class="token keyword">const</span> <span class="token function-variable function">onmatch</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span>route<span class="token punctuation">,</span>module<span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>route<span class="token punctuation">,</span> <span class="token function">require</span><span class="token punctuation">(</span>module<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+autoRouter<span class="token punctuation">.</span><span class="token function">getMapping</span><span class="token punctuation">(</span><span class="token punctuation">{</span>onmatch<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// END ROUTES ------------------------------------------------------</span>
+
+<span class="token comment">// Listening parameters</span>
+app<span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token number">4000</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;Ready on port: &quot;</span> <span class="token operator">+</span> <span class="token number">4000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</pre></li>
+<li>
+<p>Copy either the <code>dist</code> or the <code>dev</code> implementation of AutoRouter into the same level as your server.js</p>
+<p>Here are their place</p>
+<ul>
+<li>distribution : <code>dist/AutoRouter.min.js</code></li>
+<li>development : <code>dev/AutoRouter.js</code></li>
+</ul>
+<p><br><strong>Note: The autorouter module has to be placed on the same level as the server.js file - in <code>/backend</code> - to simplify the path resolving.</strong></p>
+</li>
+<li>
+<p>Create the <code>/backend/controllers/routes</code> folder structure.</p>
+</li>
+<li>
+<p>Go to <code>/backend</code> and run the server</p>
+<pre data-role="codeBlock" data-info="bash" class="language-bash">$ <span class="token function">npm</span> run server
+</pre></li>
+<li>
+<p>Create a router module in <code>/backend/controllers/routes/Test</code> and set the following code</p>
+<pre data-role="codeBlock" data-info="js" class="language-javascript"><span class="token keyword">const</span> express <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;express&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> router <span class="token operator">=</span> express<span class="token punctuation">.</span><span class="token function">Router</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+router<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">&apos;/&apos;</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    res<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">&quot;Hello world! The auto router works!&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> router<span class="token punctuation">;</span>
+</pre></li>
+</ol>
 <h2 class="mume-header" id="customer-services-demo">Customer services demo</h2>
 
-<p>I provide you with a straight forward demo based on a fictive service site. This service would, by design, handle customer no matter its abilities to consume the service...</p>
+<p>I provide you with a straight forward demo based on a fictive service site. This service would, by design, handle customers no matter its abilities to consume the service...</p>
 <p>It also gives you a good example of how the AutoRouter can be implemented.</p>
+<ol>
+<li>Clone this repository somewhere.<pre data-role="codeBlock" data-info="bash" class="language-bash">$ <span class="token function">git</span> clone https://github.com/ManuUseGitHub/AutoRouter.git
+</pre></li>
+<li>Go into the <code>/demo/backend</code> and run the following commands<pre data-role="codeBlock" data-info="bash" class="language-bash">$ <span class="token function">npm</span> <span class="token function">install</span>
+$ <span class="token function">npm</span> run server
+</pre></li>
+<li>Create a router module somewhere in <code>/demo/backend/controllers/routes</code>.<br>
+Let&apos;s say the <code>.../controllers/routes/AutoRouted</code> module. Create the <code>index.js</code> file. This file has to export a router ! Write it like this :<pre data-role="codeBlock" data-info="js" class="language-javascript"><span class="token keyword">const</span> express <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;express&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> router <span class="token operator">=</span> express<span class="token punctuation">.</span><span class="token function">Router</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+router<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">&apos;/&apos;</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    res<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">&quot;Hello world! The auto router works!&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> router<span class="token punctuation">;</span>
+</pre></li>
+</ol>
 <h2 class="mume-header" id="options">Options</h2>
 
 <table>
@@ -374,6 +454,8 @@ Tells how to translate a route which is in a folder that points on a folder that
 <p><strong>Note: Providing that special translation may avoid further eventual conflicts. Even routes work in the first place... prevention is the key!</strong></p>
 <p>The value of subr can be either of these :</p>
 <pre data-role="codeBlock" data-info="js" class="language-javascript"><span class="token punctuation">[</span> <span class="token keyword">null</span> <span class="token operator">|</span> <span class="token string">&apos;b64&apos;</span> <span class="token operator">|</span> <span class="token string">&apos;cptlz&apos;</span> <span class="token operator">|</span> <span class="token punctuation">{</span> after<span class="token punctuation">:</span><span class="token string">&apos;&lt;something&gt;&apos;</span><span class="token punctuation">,</span> before<span class="token punctuation">:</span><span class="token string">&apos;&lt;something&gt;&apos;</span> <span class="token punctuation">}</span> <span class="token punctuation">]</span>
+</pre><p>use like this</p>
+<pre data-role="codeBlock" data-info="js" class="language-javascript"><span class="token keyword">const</span> subr <span class="token operator">=</span> <span class="token keyword">null</span> <span class="token punctuation">;</span> <span class="token comment">// default value</span>
 </pre><p><strong>null case</strong> : Take this following unchanged mapping. From the demo; <code>subr</code> is <code>null</code> by default:</p>
 <pre data-role="codeBlock" data-info="bash" class="language-bash">AUTOROUTER: routers <span class="token keyword">in</span> <span class="token string">&apos;controllers/routes/&apos;</span>
 &#x21AA; <span class="token punctuation">[</span>
@@ -451,6 +533,22 @@ For this instance, we may want to hide the infirm part of the route because it m
 <p><small><code>verbose</code></small><br>
 Tells if you want to see the final resulting route list. It has <code>true</code> by default because it provides a direct check on your configurations. Turn this option to <code>false</code> if you want a clear integration.</p>
 <pre data-role="codeBlock" data-info="js" class="language-javascript"><span class="token keyword">const</span> verbose <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span> <span class="token comment">// default value</span>
+</pre><h3 class="mume-header" id="applying-all-options">Applying all options</h3>
+
+<pre data-role="codeBlock" data-info="js" class="language-javascript"><span class="token comment">// in server.js</span>
+
+<span class="token comment">// CONFIGURE options</span>
+<span class="token keyword">const</span> <span class="token function-variable function">onerr</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span>message<span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>message<span class="token punctuation">)</span> <span class="token punctuation">}</span><span class="token punctuation">;</span> <span class="token comment">// default value</span>
+<span class="token keyword">const</span> <span class="token function-variable function">onmatch</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span>route<span class="token punctuation">,</span>module<span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> express<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>route<span class="token punctuation">,</span> <span class="token function">require</span><span class="token punctuation">(</span>module<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// most important</span>
+<span class="token keyword">const</span> rootp <span class="token operator">=</span> <span class="token string">&apos;controllers/routes/&apos;</span><span class="token punctuation">;</span> <span class="token comment">// default value</span>
+<span class="token keyword">const</span> subr <span class="token operator">=</span> <span class="token string">&apos;b64&apos;</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> translations <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">{</span> 
+    <span class="token keyword">from</span> <span class="token punctuation">:</span> <span class="token string">&apos;api/customerservices/special/infirm/deaf&apos;</span><span class="token punctuation">,</span> to <span class="token punctuation">:</span> <span class="token string">&apos;deaf&apos;</span>
+<span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> verbose <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span> <span class="token comment">// default value</span>
+
+<span class="token comment">// APPLYING the mapping of routes with all options</span>
+autoRouter<span class="token punctuation">.</span><span class="token function">getMapping</span><span class="token punctuation">(</span><span class="token punctuation">{</span>onerr<span class="token punctuation">,</span>onmatch<span class="token punctuation">,</span>rootp<span class="token punctuation">,</span>subr<span class="token punctuation">,</span>translations<span class="token punctuation">,</span>verbose<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </pre><h1 class="mume-header" id="licence">Licence</h1>
 
 <p><a href="LICENSE">MIT</a></p>
