@@ -2,7 +2,7 @@
 
 Mapping your routes by your routes folder structure
 
-##Don't waste time anymore on creating new routes!
+## Don't waste time anymore on creating new routes!
 
 #### Without this AutoRouter 
 <i>On a bad day</i>, with the need of creating a new project with routing you have to do following steps :
