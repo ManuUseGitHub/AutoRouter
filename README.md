@@ -38,6 +38,8 @@ Mapping your routes by your routes folder structure
     ```bash
     $ npm init
     $ npm install express
+    $ npm install btoa
+    $ npm install nodemon
     ```
 1. Change the `server.js` file to look like this :
     ```js
@@ -64,7 +66,13 @@ Mapping your routes by your routes folder structure
     
     <br/>**Note: The autorouter module has to be placed on the same level as the server.js file - in `/backend` - to simplify the path resolving.**
 1. Create the `/backend/controllers/routes` folder structure.
-
+1. Edit the backend `package.json` file to add the server script
+    ```js
+    "scripts": {
+        // ... other commands
+        "server": "nodemon server.js"
+     }
+    ```
 1. Go to `/backend` and run the server
     ```bash
     $ npm run server
