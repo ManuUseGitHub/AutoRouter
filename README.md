@@ -33,13 +33,6 @@ Mapping your routes by your routes folder structure
     $ git clone https://github.com/ManuUseGitHub/AutoRouter.git
     ```
 1. Create the `server.js` file into a backend folder.
-    ```bash
-    #windows & mac
-    $ echo // TODO : code here > backend/server.js
-
-    #linux
-    $ // TODO : code here > backend/server.js
-    ```
 1. Go into the `/backend` folder and set your node project and its dependencies
     run
     ```bash
