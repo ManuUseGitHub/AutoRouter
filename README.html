@@ -499,6 +499,9 @@ Tells how to translate a route which is in a folder that points on a folder that
   <span class="token string">&apos;/Hi__Bye&apos;</span>,                       <span class="token comment"># applied to /&lt;empty string&gt;</span>
   <span class="token string">&apos;/Hi_api_Bye&apos;</span>                     <span class="token comment"># applied to /api</span>
 <span class="token punctuation">]</span>
+</pre><p><strong>Note : you don&apos;t have to set both <code>before</code> and <code>after</code> fields for the <code>subr</code> because these are applied if a value is set for either before or after or both fields as checked in the AutoRouter logic</strong></p>
+<pre data-role="codeBlock" data-info="js" class="language-javascript"><span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>subr <span class="token operator">&amp;&amp;</span> <span class="token keyword">this</span><span class="token punctuation">.</span>subr<span class="token punctuation">.</span>before<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">/*...*/</span> <span class="token punctuation">}</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>subr <span class="token operator">&amp;&amp;</span> <span class="token keyword">this</span><span class="token punctuation">.</span>subr<span class="token punctuation">.</span>after<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">/*...*/</span> <span class="token punctuation">}</span>
 </pre><hr>
 <h4 class="mume-header" id="translations"><code>translations</code></h4>
 

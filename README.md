@@ -223,6 +223,11 @@ AUTOROUTER: routers in 'controllers/routes/'
   '/Hi_api_Bye'                     # applied to /api
 ]
 ```
+**Note : you don't have to set both `before` and `after` fields for the `subr` because these are applied if a value is set for either before or after or both fields as checked in the AutoRouter logic**
+```js
+if (this.subr && this.subr.before) { /*...*/ }
+if (this.subr && this.subr.after) { /*...*/ }
+```
 ***
 #### `translations`
 <small>`translations`</small>
