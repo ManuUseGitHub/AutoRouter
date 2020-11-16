@@ -68,6 +68,8 @@ Mapping your routes by your routes folder structure
     ```
 1. Create a router module in `/backend/routes/Test` and set the following code
     ```js
+    // IN /backend/controllers/routes/Test/index.js
+    
     const express = require("express");
     const router = express.Router();
 
@@ -77,6 +79,7 @@ Mapping your routes by your routes folder structure
 
     module.exports = router;
     ```
+1. Test if everything worked out by browsing [`test route`](http://localhost:4000/test)
 
 ## Customer services demo
 I provide you with a straight forward demo based on a fictive service site. This service would, by design, handle customers no matter its abilities to consume the service...
