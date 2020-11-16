@@ -1,11 +1,10 @@
 const express = require('express');
+const autoroute = require('maze-autoroute');
 const app = express();
-
-const autoRouter = require("maze-autoroute");
 
 // ROUTES ----------------------------------------------------------
 const onmatch = ({route,module}) => app.use(route, require(module));
-autoRouter.getMapping({onmatch, rootp:"controllers/routes",verbose:true});
+autoroute.getMapping({onmatch, rootp:"controllers/routes",verbose:true});
 // END ROUTES ------------------------------------------------------
 
 // Listening parameters
