@@ -13,6 +13,7 @@
   "dependencies": {
     "btoa": "^1.2.1",
     "express": "^4.17.1",
+    "maze-autoroute": "^1.0.1",
     "nodemon": "^2.0.5"
   }
 }

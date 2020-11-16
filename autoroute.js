@@ -1,3 +1,5 @@
+//V1.0.3
+
 const fs = require('fs');
 const path = require('path');
 const btoa = require('btoa');
@@ -6,7 +8,7 @@ module.exports = (() => {
     let __self = null;
 
 
-    class AutoRouter {
+    class Autoroute {
         constructor() {
             __self = this;
         }
@@ -15,8 +17,13 @@ module.exports = (() => {
         getMapping(options) {
 
             this.applyOptions(options);
-
+            
             try {
+                if(!fs.existsSync(this.rootp)){
+                    throw {message:`\nAUTOROUTE: No direcrory matched the following root path '${this.rootp}' for the auto-route.`+
+                    `\nTo set the root folder for the autoroute to work on , give a custom path via the option rootp like this :\n{'rootp':'<path-to-routers>'}\n`}
+                }
+
                 const directories = this.getDirectoriesRecursive(this.rootp);
 
                 let routes = directories
@@ -30,7 +37,7 @@ module.exports = (() => {
 
                 // the mapping is entries of the providen route + module path to require
                 let mapping = routes.map(r => {
-                    const route = ('/' + r.replace(pat, '').replace(/[\\]+/g, '/')).toLowerCase();
+                    const route = (r.replace(pat, '').replace(/[\\]+/g, '/')).toLowerCase();
                     const module = './' + r.replace(/[\\]+/g, '/');
 
                     return { route, module }
@@ -63,21 +70,26 @@ module.exports = (() => {
             //setting default options
             const {
                 // default values
-                verbose = true,
-                rootp = "controllers/routes/",
+                verbose = false,
+                rootp = "routes/",
 
                 // default behaviors
                 onmatch = match => {},
-                onerr = ({message}) => { console.log(message) },
+                onerr = ({
+                    message
+                }) => { console.log(message) },
 
                 // replace specific routes by custom
                 translations = [],
 
                 subr = null // [null,cptlz,b64,{before:<String>,after:<String>}]
             } = options;
+            
+            // all empty-string '/' or '\' become './'
+            const rootpath = /^(?:(?:)|\/|\\)$/.test(rootp) ? "./" : rootp;
 
             // integrate the computed options to the RouteMapper fields
-            Object.assign(this, { verbose, rootp, onmatch, onerr, translations, subr });
+            Object.assign(this, { verbose, rootp:rootpath, onmatch, onerr, translations, subr });
         }
 
         capitalize(r) {
@@ -158,7 +170,8 @@ module.exports = (() => {
         getDirectories(srcpath) {
             return fs.readdirSync(srcpath)
                 .map(file => path.join(srcpath, file))
-                .filter(path => fs.statSync(path).isDirectory());
+                .filter(p => !/.*node_modules.*/.test(p)) // remove every node_modules based folder of the result
+                .filter(p => fs.statSync(p).isDirectory());
         }
 
         isRouterModule(path) {
@@ -168,7 +181,8 @@ module.exports = (() => {
             if (hasIndexFile) {
 
                 // get the pretened module
-                const mod = require('./' + path);
+
+                const mod = require('../../' + path);
 
                 // is the module a function then a router ?
                 return typeof (mod) == "function" ? mod.name == "router" : false;
@@ -186,13 +200,13 @@ module.exports = (() => {
 
         hintMapping(mapping) {
             if (this.verbose) {
-                console.log(`\nAUTOROUTER: routers in '${this.rootp}'`)
+                console.log(`\nAutoroute: routers in '${this.rootp}'`)
                 console.log("\u21AA", mapping.map(e => e.route))
-                console.log("To turn this message off, use the AutoRouter with the option 'verbose:false'", "\n")
+                console.log("To turn this message off, use the Autoroute with the option 'verbose:false'", "\n")
             }
 
         }
     }
 
-    return new AutoRouter();
+    return new Autoroute();
 }).call(this)

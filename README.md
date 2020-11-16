@@ -28,29 +28,24 @@ Mapping your routes by your routes folder structure
 
 ## Getting started
 
-1. Clone this repository somewhere.
-    ```bash 
-    $ git clone https://github.com/ManuUseGitHub/AutoRouter.git
-    ```
+
 1. Create the `server.js` file into a backend folder.
 1. Go into the `/backend` folder and set your node project and its dependencies
     run
     ```bash
     $ npm init
-    $ npm install express
-    $ npm install btoa
-    $ npm install nodemon
+    $ npm install maze-autoroute express btoa nodemon
     ```
 1. Change the `server.js` file to look like this :
     ```js
     const express = require('express');
     const app = express();
 
-    const autoRouter = require("./AutoRouter");
+    const autoRouter = require("./maze-autoroute");
 
     // ROUTES ----------------------------------------------------------
     const onmatch = ({route,module}) => app.use(route, require(module));
-    autoRouter.getMapping({onmatch});
+    autoRouter.getMapping({onmatch,verbose:true});
     // END ROUTES ------------------------------------------------------
 
     // Listening parameters
@@ -58,14 +53,8 @@ Mapping your routes by your routes folder structure
         console.log("Ready on port: " + 4000);
     });
     ```
-1. Copy either the `dist` or the `dev` implementation of AutoRouter into the same level as your server.js
 
-    Here are their place
-    - distribution : `dist/AutoRouter.min.js`
-    - development : `dev/AutoRouter.js`
-    
-    <br/>**Note: The autorouter module has to be placed on the same level as the server.js file - in `/backend` - to simplify the path resolving.**
-1. Create the `/backend/controllers/routes` folder structure.
+1. Create the `/backend/routes` folder structure.
 1. Edit the backend `package.json` file to add the server script
     ```js
     "scripts": {
@@ -77,7 +66,7 @@ Mapping your routes by your routes folder structure
     ```bash
     $ npm run server
     ```
-1. Create a router module in `/backend/controllers/routes/Test` and set the following code
+1. Create a router module in `/backend/routes/Test` and set the following code
     ```js
     const express = require("express");
     const router = express.Router();
@@ -103,8 +92,8 @@ It also gives you a good example of how the AutoRouter can be implemented.
     $ npm install
     $ npm run server
     ```
-1. Create a router module somewhere in `/demo/backend/controllers/routes`. 
-    Let's say the `.../controllers/routes/AutoRouted` module. Create the `index.js` file. This file has to export a router ! Write it like this :
+1. Create a router module somewhere in `/demo/backend/routes`. 
+    Let's say the `./routes/AutoRouted` module. Create the `index.js` file. This file has to export a router ! Write it like this :
     ```js
     const express = require("express");
     const router = express.Router();
@@ -121,10 +110,10 @@ It also gives you a good example of how the AutoRouter can be implemented.
 |--------------|---------------------------------------------------|-----------------|
 | onmatch      | `match => {}`                                     | function        |
 | onerr        | `({message}) => { console.log(message) }`         | function        |
-| rootp        | `'controllers/routes/'`                           | string          |
+| rootp        | `'routes/'`                           | string          |
 | subr         | null                                              | misc            |
 | translations | []                                                | array of object |
-| verbose      | true                                              | false           |
+| verbose      | false                                              | true           |
 
 ***
 #### `onmatch`
@@ -153,7 +142,7 @@ const onerr = ({message}) => { console.log(message) }; // default value
 <small>rootp : `root path`</small>
 Defines the root folder to loop <b>recursively</b> to create the based route tree dynamically.
 ```js
-const rootp = 'controllers/routes/'; // default value
+const rootp = 'routes/'; // default value
 ```
 **Note : the path should be relative to the server root level.**
 ***
@@ -173,7 +162,7 @@ const subr = null ; // default value
 ```
 **null case** : Take this following unchanged mapping. From the demo; `subr` is `null` by default:
 ```bash
-AUTOROUTER: routers in 'controllers/routes/'
+AUTOROUTER: routers in 'routes/'
 ↪ [
   '/',                      #not a leaf !
   '/api',                   #not a leaf !
@@ -185,7 +174,7 @@ AUTOROUTER: routers in 'controllers/routes/'
 **cptlz case** <small>`capitalize case`</small> : In this instance, the sub route will be capitalized ! `subr` is `cptlz` 
 
 ```bash
-AUTOROUTER: routers in 'controllers/routes/'
+AUTOROUTER: routers in 'routes/'
 ↪ [
   '/', # nothing changed for the root ... (*)
 
@@ -199,7 +188,7 @@ AUTOROUTER: routers in 'controllers/routes/'
 
 **b64 case** : In this following mapping ; `subr` is `'b64'` :
 ```bash
-AUTOROUTER: routers in 'controllers/routes/'
+AUTOROUTER: routers in 'routes/'
 ↪ [
   ...,
   '/api/customerservices/cannotsee',
@@ -215,7 +204,7 @@ AUTOROUTER: routers in 'controllers/routes/'
 ```
 **{before:'Hi_',after:'_Bye'}** : In this following mapping ; `subr` is `{before:'Hi_',after:'_Bye'}` :
 ```bash
-AUTOROUTER: routers in 'controllers/routes/'
+AUTOROUTER: routers in 'routes/'
 ↪ [
   ...,
   '/api/customerservices/cannotsee',# a leaf !
@@ -261,9 +250,9 @@ const translations = [{
 ***
 #### `verbose`
 <small>`verbose`</small>
-Tells if you want to see the final resulting route list. It has `true` by default because it provides a direct check on your configurations. Turn this option to `false` if you want a clear integration.
+Tells if you want to see the final resulting route list. It has `false`. Turn this option to `true` to see a list of your auto mapped routes.
 ```js
-const verbose = true; // default value
+const verbose = false; // default value
 ```
 
 ### Applying all options
@@ -273,12 +262,12 @@ const verbose = true; // default value
 // CONFIGURE options
 const onerr = ({message}) => { console.log(message) }; // default value
 const onmatch = ({route,module}) => express.use(route, require(module)); // most important
-const rootp = 'controllers/routes/'; // default value
+const rootp = 'routes/'; // default value
 const subr = 'b64';
 const translations = [{ 
     from : 'api/customerservices/special/infirm/deaf', to : 'deaf'
 }];
-const verbose = true; // default value
+const verbose = false; // default value
 
 // APPLYING the mapping of routes with all options
 autoRouter.getMapping({onerr,onmatch,rootp,subr,translations,verbose});

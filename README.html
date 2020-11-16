@@ -293,33 +293,24 @@ pre[data-line] .line-highlight[data-end]:after {
 
 <ol>
 <li>
-<p>Clone this repository somewhere.</p>
-<pre data-role="codeBlock" data-info="bash" class="language-bash">$ <span class="token function">git</span> clone https://github.com/ManuUseGitHub/AutoRouter.git
-</pre></li>
-<li>
 <p>Create the <code>server.js</code> file into a backend folder.</p>
-<pre data-role="codeBlock" data-info="bash" class="language-bash"><span class="token comment">#windows &amp; mac</span>
-$ <span class="token keyword">echo</span> // TODO <span class="token keyword">:</span> code here <span class="token operator">&gt;</span> backend/server.js
-
-<span class="token comment">#linux</span>
-$ // TODO <span class="token keyword">:</span> code here <span class="token operator">&gt;</span> backend/server.js
-</pre></li>
+</li>
 <li>
 <p>Go into the <code>/backend</code> folder and set your node project and its dependencies<br>
 run</p>
 <pre data-role="codeBlock" data-info="bash" class="language-bash">$ <span class="token function">npm</span> init
-$ <span class="token function">npm</span> <span class="token function">install</span> express
+$ <span class="token function">npm</span> <span class="token function">install</span> maze-autoroute express btoa nodemon
 </pre></li>
 <li>
 <p>Change the <code>server.js</code> file to look like this :</p>
 <pre data-role="codeBlock" data-info="js" class="language-javascript"><span class="token keyword">const</span> express <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&apos;express&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token function">express</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-<span class="token keyword">const</span> autoRouter <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;./AutoRouter&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> autoRouter <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;./maze-autoroute&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 <span class="token comment">// ROUTES ----------------------------------------------------------</span>
 <span class="token keyword">const</span> <span class="token function-variable function">onmatch</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span>route<span class="token punctuation">,</span>module<span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>route<span class="token punctuation">,</span> <span class="token function">require</span><span class="token punctuation">(</span>module<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-autoRouter<span class="token punctuation">.</span><span class="token function">getMapping</span><span class="token punctuation">(</span><span class="token punctuation">{</span>onmatch<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+autoRouter<span class="token punctuation">.</span><span class="token function">getMapping</span><span class="token punctuation">(</span><span class="token punctuation">{</span>onmatch<span class="token punctuation">,</span>verbose<span class="token punctuation">:</span><span class="token boolean">true</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token comment">// END ROUTES ------------------------------------------------------</span>
 
 <span class="token comment">// Listening parameters</span>
@@ -328,23 +319,21 @@ app<span class="token punctuation">.</span><span class="token function">listen</
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </pre></li>
 <li>
-<p>Copy either the <code>dist</code> or the <code>dev</code> implementation of AutoRouter into the same level as your server.js</p>
-<p>Here are their place</p>
-<ul>
-<li>distribution : <code>dist/AutoRouter.min.js</code></li>
-<li>development : <code>dev/AutoRouter.js</code></li>
-</ul>
-<p><br><strong>Note: The autorouter module has to be placed on the same level as the server.js file - in <code>/backend</code> - to simplify the path resolving.</strong></p>
+<p>Create the <code>/backend/routes</code> folder structure.</p>
 </li>
 <li>
-<p>Create the <code>/backend/controllers/routes</code> folder structure.</p>
-</li>
+<p>Edit the backend <code>package.json</code> file to add the server script</p>
+<pre data-role="codeBlock" data-info="js" class="language-javascript"><span class="token string">&quot;scripts&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token comment">// ... other commands</span>
+    <span class="token string">&quot;server&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;nodemon server.js&quot;</span>
+ <span class="token punctuation">}</span>
+</pre></li>
 <li>
 <p>Go to <code>/backend</code> and run the server</p>
 <pre data-role="codeBlock" data-info="bash" class="language-bash">$ <span class="token function">npm</span> run server
 </pre></li>
 <li>
-<p>Create a router module in <code>/backend/controllers/routes/Test</code> and set the following code</p>
+<p>Create a router module in <code>/backend/routes/Test</code> and set the following code</p>
 <pre data-role="codeBlock" data-info="js" class="language-javascript"><span class="token keyword">const</span> express <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;express&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword">const</span> router <span class="token operator">=</span> express<span class="token punctuation">.</span><span class="token function">Router</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
@@ -365,8 +354,8 @@ module<span class="token punctuation">.</span>exports <span class="token operato
 <li>Go into the <code>/demo/backend</code> and run the following commands<pre data-role="codeBlock" data-info="bash" class="language-bash">$ <span class="token function">npm</span> <span class="token function">install</span>
 $ <span class="token function">npm</span> run server
 </pre></li>
-<li>Create a router module somewhere in <code>/demo/backend/controllers/routes</code>.<br>
-Let&apos;s say the <code>.../controllers/routes/AutoRouted</code> module. Create the <code>index.js</code> file. This file has to export a router ! Write it like this :<pre data-role="codeBlock" data-info="js" class="language-javascript"><span class="token keyword">const</span> express <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;express&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<li>Create a router module somewhere in <code>/demo/backend/routes</code>.<br>
+Let&apos;s say the <code>./routes/AutoRouted</code> module. Create the <code>index.js</code> file. This file has to export a router ! Write it like this :<pre data-role="codeBlock" data-info="js" class="language-javascript"><span class="token keyword">const</span> express <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;express&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword">const</span> router <span class="token operator">=</span> express<span class="token punctuation">.</span><span class="token function">Router</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 router<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">&apos;/&apos;</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
@@ -399,7 +388,7 @@ module<span class="token punctuation">.</span>exports <span class="token operato
 </tr>
 <tr>
 <td>rootp</td>
-<td><code>&apos;controllers/routes/&apos;</code></td>
+<td><code>&apos;routes/&apos;</code></td>
 <td>string</td>
 </tr>
 <tr>
@@ -414,8 +403,8 @@ module<span class="token punctuation">.</span>exports <span class="token operato
 </tr>
 <tr>
 <td>verbose</td>
-<td>true</td>
 <td>false</td>
+<td>true</td>
 </tr>
 </tbody>
 </table>
@@ -444,7 +433,7 @@ You may prefer to stick to the default value:</p>
 
 <p><small>rootp : <code>root path</code></small><br>
 Defines the root folder to loop <b>recursively</b> to create the based route tree dynamically.</p>
-<pre data-role="codeBlock" data-info="js" class="language-javascript"><span class="token keyword">const</span> rootp <span class="token operator">=</span> <span class="token string">&apos;controllers/routes/&apos;</span><span class="token punctuation">;</span> <span class="token comment">// default value</span>
+<pre data-role="codeBlock" data-info="js" class="language-javascript"><span class="token keyword">const</span> rootp <span class="token operator">=</span> <span class="token string">&apos;routes/&apos;</span><span class="token punctuation">;</span> <span class="token comment">// default value</span>
 </pre><p><strong>Note : the path should be relative to the server root level.</strong></p>
 <hr>
 <h4 class="mume-header" id="subr"><code>subr</code></h4>
@@ -457,7 +446,7 @@ Tells how to translate a route which is in a folder that points on a folder that
 </pre><p>use like this</p>
 <pre data-role="codeBlock" data-info="js" class="language-javascript"><span class="token keyword">const</span> subr <span class="token operator">=</span> <span class="token keyword">null</span> <span class="token punctuation">;</span> <span class="token comment">// default value</span>
 </pre><p><strong>null case</strong> : Take this following unchanged mapping. From the demo; <code>subr</code> is <code>null</code> by default:</p>
-<pre data-role="codeBlock" data-info="bash" class="language-bash">AUTOROUTER: routers <span class="token keyword">in</span> <span class="token string">&apos;controllers/routes/&apos;</span>
+<pre data-role="codeBlock" data-info="bash" class="language-bash">AUTOROUTER: routers <span class="token keyword">in</span> <span class="token string">&apos;routes/&apos;</span>
 &#x21AA; <span class="token punctuation">[</span>
   <span class="token string">&apos;/&apos;</span>,                      <span class="token comment">#not a leaf !</span>
   <span class="token string">&apos;/api&apos;</span>,                   <span class="token comment">#not a leaf !</span>
@@ -466,7 +455,7 @@ Tells how to translate a route which is in a folder that points on a folder that
   <span class="token punctuation">..</span>.,
   <span class="token punctuation">]</span>
 </pre><p><strong>cptlz case</strong> <small><code>capitalize case</code></small> : In this instance, the sub route will be capitalized ! <code>subr</code> is <code>cptlz</code></p>
-<pre data-role="codeBlock" data-info="bash" class="language-bash">AUTOROUTER: routers <span class="token keyword">in</span> <span class="token string">&apos;controllers/routes/&apos;</span>
+<pre data-role="codeBlock" data-info="bash" class="language-bash">AUTOROUTER: routers <span class="token keyword">in</span> <span class="token string">&apos;routes/&apos;</span>
 &#x21AA; <span class="token punctuation">[</span>
   <span class="token string">&apos;/&apos;</span>, <span class="token comment"># nothing changed for the root ... (*)</span>
 
@@ -477,7 +466,7 @@ Tells how to translate a route which is in a folder that points on a folder that
 <span class="token punctuation">]</span>
 </pre><p><strong>(*) root : you may not set a router in the root <code>/</code> in the first place ! But you may use the <a href="#translations"><code>&apos;translations&apos;</code></a> option as a safe walkaround</strong></p>
 <p><strong>b64 case</strong> : In this following mapping ; <code>subr</code> is <code>&apos;b64&apos;</code> :</p>
-<pre data-role="codeBlock" data-info="bash" class="language-bash">AUTOROUTER: routers <span class="token keyword">in</span> <span class="token string">&apos;controllers/routes/&apos;</span>
+<pre data-role="codeBlock" data-info="bash" class="language-bash">AUTOROUTER: routers <span class="token keyword">in</span> <span class="token string">&apos;routes/&apos;</span>
 &#x21AA; <span class="token punctuation">[</span>
   <span class="token punctuation">..</span>.,
   <span class="token string">&apos;/api/customerservices/cannotsee&apos;</span>,
@@ -491,7 +480,7 @@ Tells how to translate a route which is in a folder that points on a folder that
   <span class="token string">&apos;/YXBp&apos;</span>
 <span class="token punctuation">]</span>
 </pre><p><strong>{before:&apos;Hi_&apos;,after:&apos;_Bye&apos;}</strong> : In this following mapping ; <code>subr</code> is <code>{before:&apos;Hi_&apos;,after:&apos;_Bye&apos;}</code> :</p>
-<pre data-role="codeBlock" data-info="bash" class="language-bash">AUTOROUTER: routers <span class="token keyword">in</span> <span class="token string">&apos;controllers/routes/&apos;</span>
+<pre data-role="codeBlock" data-info="bash" class="language-bash">AUTOROUTER: routers <span class="token keyword">in</span> <span class="token string">&apos;routes/&apos;</span>
 &#x21AA; <span class="token punctuation">[</span>
   <span class="token punctuation">..</span>.,
   <span class="token string">&apos;/api/customerservices/cannotsee&apos;</span>,<span class="token comment"># a leaf !</span>
@@ -534,8 +523,8 @@ For this instance, we may want to hide the infirm part of the route because it m
 <h4 class="mume-header" id="verbose"><code>verbose</code></h4>
 
 <p><small><code>verbose</code></small><br>
-Tells if you want to see the final resulting route list. It has <code>true</code> by default because it provides a direct check on your configurations. Turn this option to <code>false</code> if you want a clear integration.</p>
-<pre data-role="codeBlock" data-info="js" class="language-javascript"><span class="token keyword">const</span> verbose <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span> <span class="token comment">// default value</span>
+Tells if you want to see the final resulting route list. It has <code>false</code>. Turn this option to <code>true</code> to see a list of your auto mapped routes.</p>
+<pre data-role="codeBlock" data-info="js" class="language-javascript"><span class="token keyword">const</span> verbose <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span> <span class="token comment">// default value</span>
 </pre><h3 class="mume-header" id="applying-all-options">Applying all options</h3>
 
 <pre data-role="codeBlock" data-info="js" class="language-javascript"><span class="token comment">// in server.js</span>
@@ -543,12 +532,12 @@ Tells if you want to see the final resulting route list. It has <code>true</code
 <span class="token comment">// CONFIGURE options</span>
 <span class="token keyword">const</span> <span class="token function-variable function">onerr</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span>message<span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>message<span class="token punctuation">)</span> <span class="token punctuation">}</span><span class="token punctuation">;</span> <span class="token comment">// default value</span>
 <span class="token keyword">const</span> <span class="token function-variable function">onmatch</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span>route<span class="token punctuation">,</span>module<span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> express<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>route<span class="token punctuation">,</span> <span class="token function">require</span><span class="token punctuation">(</span>module<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// most important</span>
-<span class="token keyword">const</span> rootp <span class="token operator">=</span> <span class="token string">&apos;controllers/routes/&apos;</span><span class="token punctuation">;</span> <span class="token comment">// default value</span>
+<span class="token keyword">const</span> rootp <span class="token operator">=</span> <span class="token string">&apos;routes/&apos;</span><span class="token punctuation">;</span> <span class="token comment">// default value</span>
 <span class="token keyword">const</span> subr <span class="token operator">=</span> <span class="token string">&apos;b64&apos;</span><span class="token punctuation">;</span>
 <span class="token keyword">const</span> translations <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">{</span> 
     <span class="token keyword">from</span> <span class="token punctuation">:</span> <span class="token string">&apos;api/customerservices/special/infirm/deaf&apos;</span><span class="token punctuation">,</span> to <span class="token punctuation">:</span> <span class="token string">&apos;deaf&apos;</span>
 <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> verbose <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span> <span class="token comment">// default value</span>
+<span class="token keyword">const</span> verbose <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span> <span class="token comment">// default value</span>
 
 <span class="token comment">// APPLYING the mapping of routes with all options</span>
 autoRouter<span class="token punctuation">.</span><span class="token function">getMapping</span><span class="token punctuation">(</span><span class="token punctuation">{</span>onerr<span class="token punctuation">,</span>onmatch<span class="token punctuation">,</span>rootp<span class="token punctuation">,</span>subr<span class="token punctuation">,</span>translations<span class="token punctuation">,</span>verbose<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
