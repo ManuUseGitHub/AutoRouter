@@ -1,4 +1,4 @@
-# AutoRouter &#128739;
+# Maze-Autorouter &#128739;
 
 Mapping your routes by your routes folder structure
 
