@@ -1,4 +1,4 @@
-# Maze-autoroute &#128739;
+# Maze-Autoroute &#128739;
 
 Mapping your routes by a folder structure.
 
