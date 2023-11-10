@@ -79,7 +79,7 @@ Mapping your routes by your routes folder structure
 
 
 ## Customer services demo
-if you do prefer having a concrete example of the autorouter without creating a brand new project, I get you covered with a small demo project on GitHub. [Go check it](https://github.com/ManuUseGitHub/Maze-Autoroute#customer-services-demo).
+if you do prefer having a concrete example of the autorouter without creating a brand new project, I get you covered with a small demo project on GitHub. [Go check it](https://github.com/ManuUseGitHub/mz-express-autoroute-demo).
 
 ## Options
 | Option       | default                                           | type            |
